@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+<div>
+    {% block content %}
+    <div class="container pt-4">
+        <div class="row mt-5 p-0">
+            <div class="col-lg-4 mx-auto shadow p-0">
+                <div class="alert alert-success p-2" >
+                    <h1>Add Todo</h1>
+                </div>
+                <div class="p-4">
+                    <form action="{% url 'add_todo' %}" method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <hr>
+                        <input type="submit" class="btn btn-success" value="Add">
+                    </form>
+                </div>
+            </div>
+            
+            
+            <div class="col">
+                <div class="border">
+                    {% if tasks|length == 0 %}
+                    <div class="alert alert-success">
+                        <h1>No Todo Added</h1>
+                    </div>
+                    {% else %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Delete Todo</th>
+                                <th>Update Todo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{task.title}}</td>
+                                <td>{{task.status}}</td>
+                                <td>{{task.priority}}</td>
+                                <td><a class="btn btn-danger" href="/delete_todo/{{task.id}}" >Delete</a></td>
+                                <td><a class="btn btn-success" href="{% url 'update' task.id %}">Update</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    {% endblock  %}
+</div>
+
+    
+
+   
